@@ -1,31 +1,59 @@
 <div class="gray_background">
   <div class="wrapper clearfix">
     <div class="main_content <%= "payment_options" if Settings.use_payment_options %>">
-      <h3>Check out</h3>
-      <p>
-        All of your payment information will be secured and stored with Amazon Payments. If you don't have an Amazon account, simply select "I'm a new Customer" on the next page.
-        <br />
-        <br />
-        <% if Settings.use_payment_options %>
-          Select a payment option and enter your email address below.
-        <% else %>
-          Enter your email address below.
-        <% end %>
-
-      </p>
-      <%= form_tag "/preorder/prefill", :id => "checkout" do %>
-        <%= render 'preorder/payment_options' %>
-        <div class="checkout_controls">
-          <div class="checkout_controls_wrapper">
-            <div class="checkout_controls_inner">
-              <%= email_field_tag "email", nil, :placeholder => "Email address", :required => "required", :id => "email" %>
-              <%= hidden_field_tag "preorder", true %>
-              <%= hidden_field_tag "quantity", params[:quantity] %>
-              <%= submit_tag "Checkout", :class => "blue_button disabled", :id => "amazon_button" %>
+      <h3><%= Settings.value_proposition %></h3>
+        <div id="video">
+          <% if Settings.use_video_placeholder %>
+            <div id="video_image">
+              <img alt="video_place_holder" width='512px' height='385px' src="/assets/video_placeholder.png" />
             </div>
-          </div>
+            <div id="player" class="hidden" style="display: none;">
+              <object width="512" height="385">
+                <param name="movie" value="<%= Settings.video_embed_url %>?autohide=1&showinfo=0&rel=0&autoplay=1" />
+                <param name="allowFullScreen" value="true" />
+                <param name="allowscriptaccess" value="always" />
+                <embed src="<%= Settings.video_embed_url %>?autohide=1&showinfo=0&rel=0&autoplay=1" type="application/x-shockwave-flash" width="512" height="385" allowscriptaccess="always" allowfullscreen="true"></embed>
+              </object>
+            </div>
+          <% else %>
+            <iframe width='512' height='385' src="<%= video_url %>"></iframe>
+          <% end %>
         </div>
-      <% end %>
+      <p>
+        Please select your package.
+      </p>
+
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1">
+          Bronze package - 100€
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+          Silver package - 200€
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios3" value="option3">
+          Gold package - 500€
+        </label>
+      </div>
+      <div class="radio">
+        <label>
+          <input type="radio" name="optionsRadios" id="optionsRadios3" value="option4">
+          Platinum package - 1000€
+        </label>
+      </div>
+
+      <p>
+          Please enter your email address below.
+      </p>
+      <input type="email" class="form-control" placeholder="Email">
+      <%= link_to "Confirm my support", root_path, class: "btn btn-primary" %>
+
     </div>
     <%= render 'preorder/checkout/sidebar' %>
   </div>
